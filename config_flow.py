@@ -51,9 +51,7 @@ class RecteqFlowHandler(config_entries.ConfigFlow):
 
 
             user_input[CONF_PROTOCOL] = user_input[CONF_PROTOCOL].strip()
-            if user_input[CONF_PROTOCOL] not in PROTOCOLS:
-                self._errors[CONF_PROTOCOL] = STR_INVALID_PREFIX + CONF_PROTOCOL
-
+            
             if self._errors == {}:
                 self.init_info = user_input
                 return self.async_create_entry(title=self._data[CONF_NAME], data=self._data)
