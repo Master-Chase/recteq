@@ -46,12 +46,19 @@ class RecteqFlowHandler(config_entries.ConfigFlow):
                 self._errors[CONF_IP_ADDRESS] = STR_INVALID_PREFIX + CONF_IP_ADDRESS
 
             user_input[CONF_DEVICE_ID] = user_input[CONF_DEVICE_ID].replace(" ", " ")
+            if (len(user_input[CONF_DEVICE_ID]) != LEN_DEVICE_ID or
+                    not all(c in string.hexdigits for c in user_input[CONF_DEVICE_ID])):
+                self._errors[CONF_DEVICE_ID] = STR_INVALID_PREFIX + CONF_DEVICE_ID
 
             user_input[CONF_LOCAL_KEY] = user_input[CONF_LOCAL_KEY].replace(" ", " ")
-
+            if (len(user_input[CONF_LOCAL_KEY]) != LEN_LOCAL_KEY or 
+                    not all(c in string.hexdigits for c in user_input[CONF_LOCAL_KEY])):
+                self._errors[CONF_LOCAL_KEY] = STR_INVALID_PREFIX + CONF_LOCAL_KEY
 
             user_input[CONF_PROTOCOL] = user_input[CONF_PROTOCOL].strip()
-            
+            if user_input[CONF_PROTOCOL] not in PROTOCOLS:
+                self._errors[CONF_PROTOCOL] = STR_INVALID_PREFIX + CONF_PROTOCOL
+
             if self._errors == {}:
                 self.init_info = user_input
                 return self.async_create_entry(title=self._data[CONF_NAME], data=self._data)
@@ -122,4 +129,3 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 }
             ),
         )
-
